@@ -96,23 +96,26 @@ class LinkedList:
 
         return str_list
 
-linked_list = LinkedList()
-values = [5,2,7,7,33,1,6,0,4,3]
-linked_list.preppend(999)
+def main():
+    linked_list = LinkedList()
+    values = [5,2,7,7,33,1,6,0,4,3]
+    linked_list.preppend(999)
 
-for num in values:
-    linked_list.preppend(num)
+    for num in values:
+        linked_list.preppend(num)
+        print(str(linked_list))
+        print(len(linked_list))
+
+    for num in values:
+        linked_list.remove(num)
+        print(str(linked_list))
+        print(len(linked_list))
+
+    print(linked_list.search(0))
+    print(linked_list.search(999))
+    linked_list.preppend(999)
     print(str(linked_list))
-    print(len(linked_list))
+    print()
 
-for num in values:
-    linked_list.remove(num)
-    print(str(linked_list))
-    print(len(linked_list))
-
-print(linked_list.search(0))
-print(linked_list.search(999))
-linked_list.preppend(999)
-print(str(linked_list))
-print()
-        
+if __name__ == "__main__":
+    main()
