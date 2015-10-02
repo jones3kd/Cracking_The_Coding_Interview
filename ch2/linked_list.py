@@ -10,6 +10,9 @@ class LinkedList:
         def __init__(self, value):
             self.value = value
             self.next = None
+
+        def __str__(self):
+            return (str(self.value))
             
     def __init__(self):
         self.head = None
@@ -82,6 +85,20 @@ class LinkedList:
                 cur = cur.next
 
             return False
+    def get_node(self, value):
+        """ returns node if the value is in the list """
+
+        if self.head is None:
+            return None
+        else:
+            cur = self.head
+
+            while cur is not None:
+                if cur.value == value:
+                    return cur
+                cur = cur.next
+
+            return None
             
 
     def __str__(self):
