@@ -37,13 +37,14 @@ class BinarySearchTree:
             """ searches recurseivly down until it finds a node without
              a  child """
 
+
             if self.left is None and self.right is None:
-                print("no child for this node: "+str(self.value))
                 #delete itself from parent
                 if self.value < parent.value:
                     parent.left = None
                 else:
                     parent.right = None
+
                 return self
             else:
                 if self.left is not None:
@@ -53,12 +54,14 @@ class BinarySearchTree:
 
         def remove(self, parent, value):
             """ removes value from tree
-            returns successor if vlaue removed was the root"""
+            returns successor if vlaue removed was the root
+            if we are removing the root of the tree returns
+            a list containing True and the value to reset root"""
+            successor = None
             on_left = False #child of parent
             if self.value == value:
                 #no children
                 if parent is not None:
-                    print("found, parent is: " + str(parent.value))
                     if value < parent.value: #was left child
                         parent.left = None
                         on_left = True
@@ -88,6 +91,9 @@ class BinarySearchTree:
                             parent.left = successor
                         else:
                             parent.right = successor
+
+                        successor.left = self.left
+                        successor.right = self.right #this should be None
                 else:#removing root of tree so must update self.root in
                     #binary tree
                     if self.left is None and self.right is None:
@@ -101,19 +107,23 @@ class BinarySearchTree:
                         #one child just replace pointer to parent
                         return self.left
 
-                    else:#2 children
+                    else:#2 children fix this
                         #find successor
                         successor = self.right.find_successor(self)
+                        successor.left = self.left
+                        successor.right = self.right
 
-                        return successor
+                    return [True, successor]
 
 
             else:#didn't find value continue search
-                if self.left is not None:
-                    self.left.remove(self, value)
+                if (self.left is not None) and (value < self.value):
+                    return self.left.remove(self, value)
+                elif self.right is not None:
+                    return self.right.remove(self, value)
 
-                if self.right is not None:
-                    self.right.remove(self, value)
+                #if none of these then the value doesn't exist in the
+                #tree
 
 
         def print_tree(self):
@@ -148,8 +158,11 @@ class BinarySearchTree:
         if self.root is not None:
             succ = self.root.remove(None, value)
 
+        #if succ is None it means don't need to update root
+        #if need to update root it will return a node
         if succ is not None:
-            self.root = succ
+            if succ[0]:
+                self.root = succ[1]
 
     def print_tree(self):
         """ prints tree in sorted order """
@@ -169,8 +182,10 @@ for num in nums:
 
 tree.print_tree()
 
-for num in nums:
+for num in reversed(nums):
+    print("removing this num: " + str(num))
     tree.remove(num)
+    print("after removed")
     tree.print_tree()
 
 print("final: ")
